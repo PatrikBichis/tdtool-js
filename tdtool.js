@@ -14,6 +14,8 @@ var units = [
     { device : "F"+unescape("%F6")+"nsterlampa i sovrum", unitAdress : 7, currentValue : false }, 
   ]; */
 
+var debug = false;
+
 function tdtool () {
 	if (arguments.callee._singletonInstance){
  		return arguments.callee._singletonInstance;
