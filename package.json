@@ -1,0 +1,22 @@
+{
+  "name": "tdtool-js",
+  "homepage": "https://github.com/x-firm/tdtool-js/",
+  "author": {
+    "name": "Patrik Olsson",
+    "url": "http://www.x-firm.com"
+  },
+  "description": "Node.js module for controlling an Telldus Tellstick",
+  "version": "0.0.1",
+  "repository": {
+    "type": "git",
+    "url": "git://github.com/x-firm/tdtool-js.git"
+  },
+  "main": "tdtool",
+  "licenses": [
+    {
+      "type": "MIT",
+      "url": "http://rem.mit-license.org"
+    }
+  ],
+  "readmeFilename": "README.md"
+}
