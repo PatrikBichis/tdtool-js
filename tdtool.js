@@ -60,6 +60,33 @@ function tdtool () {
 	  }
 	}
 
+	this.setTellstickUnitGroupValue = function(callback, group, value){
+		var group = group;
+
+		var str = "tdtool ";
+
+		for (var i = 0; i < group.length; i++) {
+			var unit = group[i].id
+			if(value){
+	     	  str = str + " --on " + unit;
+		    }else{
+		      str = str + " --off " + unit;
+		    }
+
+		};
+
+		//console.log(str);
+	    
+	    child = exec(str, function (error, stdout, stderr) {
+	      if (error !== null) {
+	        console.log('exec error: ' + error);
+	      }else{
+	      	console.log(stdout);
+	        callback();
+	      }
+	    });
+	}
+
 	this.setTellstickUnitValue = function(callback, unit, value, units){
 	  var units = units;
 	  // Not yet implemented
