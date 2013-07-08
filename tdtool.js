@@ -2,18 +2,6 @@ var sys = require('sys');
 var exec = require('child_process').exec;
 var child;
   
- // Current device setup befor implementation of SQLite database
- /*
-var units = [ 
-    { device : "F"+unescape("%F6")+"nsterlampa i kontoret", unitAdress : 1, currentValue : false }, 
-    { device : "Trapstegsljus", unitAdress : 2, currentValue : false }, 
-    { device : "F"+unescape("%F6")+"nsterlampor i vardagsrummet", unitAdress : 3, currentValue : false }, 
-    { device : "Lampor p"+unescape("%E5")+" inneg"+unescape("%E5")+"rd", unitAdress : 4, currentValue : false }, 
-    { device : "F"+unescape("%F6")+"nsterlampa i k"+unescape("%F6")+"ket", unitAdress : 5, currentValue : false }, 
-    { device : "Bordslampa i hallen", unitAdress : 6, currentValue : false }, 
-    { device : "F"+unescape("%F6")+"nsterlampa i sovrum", unitAdress : 7, currentValue : false }, 
-  ]; */
-
 var debug = false;
 
 function tdtool () {
@@ -22,6 +10,8 @@ function tdtool () {
 	}
  	arguments.callee._singletonInstance = this;
 
+ 	// Returns the units value in an collection like below
+ 	// {id: 1, name: "Light 1", currentValue: false/true, currentDimValue: 0-255}
 	this.readUnitsValue = function(callback){
 	  var values = [];
 
@@ -80,7 +70,7 @@ function tdtool () {
 	  }
 	}
 
-	this.setTellstickUnitValue = function(callback, unitId, value, id, units){
+	this.setTellstickUnitValue = function(callback, unitId, value){
 	  var units = units;
 	  // Not yet implemented
 	  // Set device state with the tdtool --on 'unit' command
@@ -96,24 +86,18 @@ function tdtool () {
 	    child = exec(str, function (error, stdout, stderr) {
 	      if (error !== null) {
 	        console.log('exec error: ' + error);
-	        callback();
-	      }else{
-	        // Should be removed when the list of devices is
-	        // generated 
-	        units[id].currentValue = value;
-	        //
-	        callback();
+	        callback(error, stdout);
+	      }else{ 
+	        callback(null, stdout);
 	      }
 	    });
 	  }else{
-
-	    units[id].currentValue = value;
 
 	    callback();
 	  }
 	}
 
-	this.setTellstickUnitDimValue = function(callback, unitId, value, id, units){
+	this.setTellstickUnitDimValue = function(callback, unitId, value){
 	  var units = units;
 	  // Not yet implemented
 	  // Set device state with the tdtool --on 'unit' command
@@ -127,20 +111,13 @@ function tdtool () {
 	    child = exec(str, function (error, stdout, stderr) {
 	      if (error !== null) {
 	        console.log('exec error: ' + error);
-	        callback();
+	        callback(error, stdout);
 	      }else{
-	        // Should be removed when the list of devices is
-	        // generated 
-	        units[id].currentValue = true;
-	        units[id].currentDimValue = value;
-	        //
-	        callback();
+
+	        callback(null, stdout);
 	      }
 	    });
 	  }else{
-	  	
-	  	units[id].currentValue = true;
-	    units[id].currentDimValue = value;
 
 	    callback();
 	  }
