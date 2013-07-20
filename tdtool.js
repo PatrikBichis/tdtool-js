@@ -18,53 +18,57 @@ function tdtool () {
 	  // Not yet implemented
 	  // Read data from the tdtool -l command and format it as the unit data object
 	  if(!debug){
-	    var str = "tdtool -l";
-	    child = exec(str, function (error, stdout, stderr) {
-	      if (error !== null) {
-	        console.log('exec error: ' + error);
-	        callback();
-	      }else{
-	        var index = 1;
-	        var strings = stdout.split('\n');
+	  	if(process.platform === 'darwin'){
+		    var str = "tdtool -l";
+		    child = exec(str, function (error, stdout, stderr) {
+		      if (error !== null) {
+		        console.log('exec error: ' + error);
+		        callback();
+		      }else{
+		        var index = 1;
+		        var strings = stdout.split('\n');
 
-	        for (var i = 1; i<strings.length; i++) {
-	          // String not empty
-	          if(strings[i-1] != ""){ 
-	              var parts = strings[i-1].split('\t'); 
+		        for (var i = 1; i<strings.length; i++) {
+		          // String not empty
+		          if(strings[i-1] != ""){ 
+		              var parts = strings[i-1].split('\t'); 
 
-	              // Check that row has right syntax
-	              if(parts.length >= 3){ 
+		              // Check that row has right syntax
+		              if(parts.length >= 3){ 
 
-	              	// Check if value is ok
-	              	var value = new Object();
-					value.id = index;
-		            value.name = parts[1];
-		            value.currentValue = false;
-					value.currentDimValue = 255;
-
-	              	if(parts[2] == "ON"){
-	              	  	value.currentValue = true;
+		              	// Check if value is ok
+		              	var value = new Object();
+						value.id = index;
+			            value.name = parts[1];
+			            value.currentValue = false;
 						value.currentDimValue = 255;
-		            }else if(parts[2] == "OFF"){
-	              	  	value.currentValue = false;
-						value.currentDimValue = 255;
-		            }else{
-		            	var dim = parts[2].split(':');
-		            	if(dim.length >= 1){
-		            		value.currentValue = true;
-							value.currentDimValue = dim[1];
-		            	}
-		            }
 
-		            values.push(value);
+		              	if(parts[2] == "ON"){
+		              	  	value.currentValue = true;
+							value.currentDimValue = 255;
+			            }else if(parts[2] == "OFF"){
+		              	  	value.currentValue = false;
+							value.currentDimValue = 255;
+			            }else{
+			            	var dim = parts[2].split(':');
+			            	if(dim.length >= 1){
+			            		value.currentValue = true;
+								value.currentDimValue = dim[1];
+			            	}
+			            }
 
-		            index++;
-		          }  
-	          } 
-	        }
-	        callback(values);
-	      }
-		});
+			            values.push(value);
+
+			            index++;
+			          }  
+		          } 
+		        }
+		        callback(values);
+		      }
+			});
+		}else{
+			callback(null);
+		}
 	  }else{
 	    callback(values);
 	  }
@@ -75,22 +79,26 @@ function tdtool () {
 	  // Not yet implemented
 	  // Set device state with the tdtool --on 'unit' command
 	  if(!debug){
-	    var str = "tdtool ";
+	  	if(process.platform === 'darwin'){
+		    var str = "tdtool ";
 
-	    if(value){
-	      str = str + "--on " + unitId;
-	    }else{
-	      str = str + "--off " + unitId;
-	    }
+		    if(value){
+		      str = str + "--on " + unitId;
+		    }else{
+		      str = str + "--off " + unitId;
+		    }
 
-	    child = exec(str, function (error, stdout, stderr) {
-	      if (error !== null) {
-	        console.log('exec error: ' + error);
-	        callback(error, stdout);
-	      }else{ 
-	        callback(null, stdout);
-	      }
-	    });
+		    child = exec(str, function (error, stdout, stderr) {
+		      if (error !== null) {
+		        console.log('exec error: ' + error);
+		        callback(error, stdout);
+		      }else{ 
+		        callback(null, stdout);
+		      }
+		    });
+		}else{
+			callback(null, "Not an linux computor");
+		}
 	  }else{
 
 	    callback();
@@ -102,21 +110,25 @@ function tdtool () {
 	  // Not yet implemented
 	  // Set device state with the tdtool --on 'unit' command
 	  if(!debug){
-	    var str = "tdtool ";
+	  	if(process.platform === 'darwin'){
+		    var str = "tdtool ";
 
 
-	     str = str + "-v " + value + " -d " + unitId;
+		     str = str + "-v " + value + " -d " + unitId;
 
 
-	    child = exec(str, function (error, stdout, stderr) {
-	      if (error !== null) {
-	        console.log('exec error: ' + error);
-	        callback(error, stdout);
-	      }else{
+		    child = exec(str, function (error, stdout, stderr) {
+		      if (error !== null) {
+		        console.log('exec error: ' + error);
+		        callback(error, stdout);
+		      }else{
 
-	        callback(null, stdout);
-	      }
-	    });
+		        callback(null, stdout);
+		      }
+		    });
+		}else{
+			callback(null, "Not an linux computor");	
+		}
 	  }else{
 
 	    callback();
