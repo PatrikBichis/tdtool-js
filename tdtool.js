@@ -18,7 +18,7 @@ function tdtool () {
 	  // Not yet implemented
 	  // Read data from the tdtool -l command and format it as the unit data object
 	  if(!debug){
-	  	if(process.platform === 'darwin'){
+	  	if(process.platform === 'linux'){
 		    var str = "tdtool -l";
 		    child = exec(str, function (error, stdout, stderr) {
 		      if (error !== null) {
@@ -79,7 +79,7 @@ function tdtool () {
 	  // Not yet implemented
 	  // Set device state with the tdtool --on 'unit' command
 	  if(!debug){
-	  	if(process.platform === 'darwin'){
+	  	if(process.platform === 'linux'){
 		    var str = "tdtool ";
 
 		    if(value){
@@ -110,7 +110,7 @@ function tdtool () {
 	  // Not yet implemented
 	  // Set device state with the tdtool --on 'unit' command
 	  if(!debug){
-	  	if(process.platform === 'darwin'){
+	  	if(process.platform === 'linux'){
 		    var str = "tdtool ";
 
 
